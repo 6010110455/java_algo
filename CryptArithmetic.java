@@ -82,11 +82,23 @@ public class CryptArithmetic
     // sumStr = sc.nextLine().trim().toLowerCase();
 
 
-    s1 = "SEND";
+    // s1 = "SEND";
 
-    s2 = "MORE";
+    // s2 = "MORE";
 
-    sumStr = "MONEY";
+    // sumStr = "MONEY";
+
+    // s1 = "CROSS";
+
+    // s2 = "ROADS";
+
+    // sumStr = "DANGER";
+
+    s1 = "BASE";
+
+    s2 = "BALL";
+
+    sumStr = "GAMES";
 
     System.out.println("\nCalculating \"" + s1 + "\" + \"" + s2 + "\" == \"" + sumStr + "\"");
     
@@ -97,6 +109,7 @@ public class CryptArithmetic
     addLetters(sumStr);
 
     calculate();
+    System.out.println("Count of calculate == " + count);
 
     long now = System.currentTimeMillis();
     System.out.println("Elapsed time: " + ((now - start) / 1000.0) + " secs");
@@ -105,30 +118,12 @@ public class CryptArithmetic
   public static void calculate()
 	{
 		Collections.sort(letters);
-		matchWithLetters(digits, 0);
-		
-		for(int i=0;i<permuts.size();i++)
-		{
-			for(int j=0;j<letters.size();j++)
-			{
-				hm.put(letters.get(j),permuts.get(i).get(j));			
-			}
-		
-			int no1 = evalNumber(s1);
-			int no2 = evalNumber(s2);
-			int sum = evalNumber(sumStr);
-			
-			if(sum==no1+no2)
-			{
-				solutionfound=true;
-				System.out.println("\n" + s1 + "(" + no1 + ") + " + s2 + "(" + no2 + ") == " + sumStr + "(" + sum + ")");
-				count++;
-			}	
-		}
-	
-		if(!solutionfound)
-    System.out.println("Those mix of digits do not work");
 
+		matchWithLetters(digits, 0);
+
+    if (!sumWorks(digits))
+    System.out.println("Those mix of digits do not work");
+	
 	}
 
   public static void addLetters(String s)
@@ -170,30 +165,34 @@ public class CryptArithmetic
 			}
 		}
 
+
   } /* matchWithLetters */
 
 
   private static boolean sumWorks(int[] digits)
   {
     // pair letters with digits
-    TreeMap<Character, Integer> letterVals = new TreeMap<Character, Integer>();
-    for(int j=0; j < letters.size(); j++)
-      letterVals.put(letters.get(j),digits[j]);
+    for(int i=0;i<permuts.size();i++)
+		{
+			for(int j=0;j<letters.size();j++)
+			{
+				hm.put(letters.get(j),permuts.get(i).get(j));			
+			}
+		
+			int no1 = evalNumber(s1);
+			int no2 = evalNumber(s2);
+			int sum = evalNumber(sumStr);
+			
+			if(sum==no1+no2)
+			{
+				solutionfound=true;
+				System.out.println("\n" + s1 + "(" + no1 + ") + " + s2 + "(" + no2 + ") == " + sumStr + "(" + sum + ")");
+        listMap(hm);
+				count++;
+			}	
+		}
 
-    // use map to convert strings to numbers
-    int no1 = evalNumber(s1, letterVals);
-    int no2 = evalNumber(s2, letterVals);
-    int sum = evalNumber(sumStr, letterVals);
-
-    // check if the calculation works
-    boolean hasSolution = false;
-    if(sum == no1+no2) {
-      hasSolution = true;
-      System.out.println("\n" + s1 + "(" + no1 + ") + " + s2 + "(" + no2 + ") == " + sumStr + "(" + sum + ")");
-      listMap(letterVals);
-    }
-
-    return hasSolution;
+    return solutionfound;
   } /* sumWorks */
 
 
@@ -209,9 +208,9 @@ public class CryptArithmetic
 
 
 
-  private static void listMap(TreeMap<Character, Integer> letterVals)
+  private static void listMap(HashMap<Character, Integer> hm2)
   {
-    for (Map.Entry<Character, Integer> entry : letterVals.entrySet()) {
+    for (Map.Entry<Character, Integer> entry : hm2.entrySet()) {
       char key = entry.getKey();
       int value = entry.getValue();
       System.out.print("  " + key + ":" + value + ";");
@@ -233,6 +232,10 @@ public class CryptArithmetic
 			return false;	
 	}
 
+  public static int getLengthOfInt(int n)
+	{
+		 return String.valueOf(n).length();
+	}
 
 
 }  // end of Cryptarithmetic class
