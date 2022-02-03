@@ -55,6 +55,7 @@ public class GetStuds
     long val = -1L;
     try {
       val = Long.parseLong(s); 
+      System.out.println("Could not parse: " + s + " : " + val);
     }
     catch (NumberFormatException e)
     {  System.out.println("Could not parse: \"" + s + "\"");  }

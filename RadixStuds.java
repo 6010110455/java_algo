@@ -12,23 +12,23 @@ public class RadixStuds
 
   public static void main(String[] args)
   {
-    // if (args.length != 1) {
-    //   System.out.println("Usage: java GetStudents <fnm>");
-    //   System.exit(1);
-    // }
-
     ArrayList<String> lines = readLines("C:\\Users\\60101\\Desktop\\mydev\\java_algo\\students.txt");
     if (lines == null)
       return;
 
     long[] studs = new long[lines.size()];
+    // int[] intNumbers = new int[lines.size()];
+
     for (int i=0; i < studs.length; i++){
        studs[i] = getLong(lines.get(i));
+      //  intNumbers[i] = (int)studs[i];
+      //  System.out.println("No. of students IDs: " + lines.get(i) + "  :  " + intNumbers[i]);
     }
+
     System.out.println("No. of students IDs: " + studs.length);
     System.out.println(Arrays.toString(studs));
-    // radixSort(studs); 
-    // System.out.println("  Sorted array: " + Arrays.toString(studs));
+    radixSort(studs); 
+    System.out.println("  Sorted array: " + Arrays.toString(studs));
   }  // end of main()
 
 
@@ -50,8 +50,6 @@ public class RadixStuds
     return null;
   } // end of readLines()
 
-
-
   private static long getLong(String s)
   {
     long val = -1L;
@@ -64,10 +62,9 @@ public class RadixStuds
     return val;
   }  // end of getLong()
 
-  private static void radixSort(int arr[]) 
+  private static void radixSort(long arr[]) 
   { 
-    int max = findMax(arr); 
-    int numDigits = (int) Math.log10(max) + 1; 
+    int numDigits = 10; 
                              // valid only if max > 0
     int placeVal = 1;
     while (numDigits-- > 0) {
@@ -78,10 +75,10 @@ public class RadixStuds
 
 
 
-  private static int findMax(int arr[]) 
+  private static long findMax(long arr[]) 
   // return maximum value in arr[] 
   { 
-    int max = arr[0]; 
+    long max = arr[0]; 
     for (int i = 1; i < arr.length; i++) 
       if (arr[i] > max) 
         max = arr[i]; 
@@ -89,7 +86,7 @@ public class RadixStuds
   } 
 
 
-  private static void countSort(int arr[], int placeVal) 
+  private static void countSort(long arr[], int placeVal) 
   // counting sort of arr[] according to placeVal
   { 
     int n = arr.length; 
@@ -99,7 +96,7 @@ public class RadixStuds
 
     // count the values in arr[]
     for (int i = 0; i < n; i++) {
-      int pos = (arr[i]/placeVal)%10;
+      int pos = (int) ((arr[i]/placeVal)%10);
       count[pos]++; 
     }
 
@@ -112,9 +109,9 @@ public class RadixStuds
 
     // build the sorted array in reverse order
     // so sort is stable
-    int sorted[] = new int[n];  
+    long sorted[] = new long[n];  
     for (int i = n-1; i >= 0; i--) { 
-      int pos = (arr[i]/placeVal)%10;
+      int pos = (int) ((arr[i]/placeVal)%10);
       sorted[count[pos] - 1] = arr[i]; 
       count[pos]--; 
     } 
